@@ -1,0 +1,36 @@
+---
+- name: Check if Xcode already exists
+  stat:
+    path: "/Applications/Xcode.app"
+  register: Xcodeapp
+
+- name: Copy Xcode.xip if not installed
+  copy:
+    src: "Xcode_{{xcode_version}}.xip"
+    dest: "/Users/cbtadmin/Xcode.xip"
+  when: not Xcodeapp.stat.exists
+
+- name: Check if Xcode is already extracted
+  stat:
+    path: "/Users/cbtadmin/Xcode.app"
+  register: xcode_extracted
+  when: not Xcodeapp.stat.exists
+
+- name: Extract Xcode
+  command: open -W Xcode.xip
+  args:
+    chdir: "/Users/cbtadmin"
+  when: not Xcodeapp.stat.exists and not xcode_extracted.stat.exists
+
+- name: Move Xcode.app
+  command: mv Xcode.app /Applications
+  args:
+    chdir: "/Users/cbtadmin"
+  when: not Xcodeapp.stat.exists
+
+- name: remove quarantine xattr
+  command: xattr -d com.apple.quarantine Xcode.app
+  args:
+    chdir: /Applications
+  become: yes
+  ignore_errors: yes
