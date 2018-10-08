@@ -17,7 +17,7 @@
   when: not Xcodeapp.stat.exists
 
 - name: Extract Xcode
-  command: open -W Xcode.xip
+  command: xip -x Xcode.xip
   args:
     chdir: "/Users/cbtadmin"
   when: not Xcodeapp.stat.exists and not xcode_extracted.stat.exists
