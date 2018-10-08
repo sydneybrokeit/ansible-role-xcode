@@ -34,3 +34,8 @@
     chdir: /Applications
   become: yes
   ignore_errors: yes
+
+- name: Accept license (optional)
+  shell: xcodebuild -license accept
+  become: yes
+  when: xocde_accept_license
