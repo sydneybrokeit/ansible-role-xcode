@@ -38,4 +38,4 @@
 - name: Accept license (optional)
   shell: xcodebuild -license accept
   become: yes
-  when: xocde_accept_license
+  when: xcode_accept_license
