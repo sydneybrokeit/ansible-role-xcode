@@ -1,3 +1,4 @@
 ---
 xcode_version: "9.2"
 xcode_accept_license: false
+xcode_prefix: ""
