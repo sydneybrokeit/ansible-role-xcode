@@ -8,13 +8,17 @@
   copy:
     src: "Xcode_{{xcode_version}}.xip"
     dest: "/Users/cbtadmin/Xcode.xip"
-  when: not Xcodeapp.stat.exists && xcode_prefix is not defined
+  when:
+    - not Xcodeapp.stat.exists
+    - xcode_prefix is not defined
 
 - name: Download .xip if prefix
-  copy:
-    src: "{{ xcode_prefix }}/Xcode_{{xcode_version}}.xip"
+  get_url:
+    url: "{{ xcode_prefix }}/Xcode_{{xcode_version}}.xip"
     dest: "/Users/cbtadmin/Xcode.xip"
-  when: not Xcodeapp.stat.exists && xcode_prefix is defined
+  when:
+    - not Xcodeapp.stat.exists
+    - xcode_prefix is defined
 
 - name: Check if Xcode is already extracted
   stat:
@@ -26,7 +30,9 @@
   command: xip -x Xcode.xip
   args:
     chdir: "/Users/cbtadmin"
-  when: not Xcodeapp.stat.exists and not xcode_extracted.stat.exists
+  when:
+    - not Xcodeapp.stat.exists
+    - not xcode_extracted.stat.exists
 
 - name: Move Xcode.app
   command: mv Xcode.app /Applications
