@@ -47,6 +47,10 @@
   become: yes
   ignore_errors: yes
 
+- name: Ensure Xcode developer dir is set
+  command: xcode-select --switch /Applications/Xcode.app
+  become: true
+
 - name: Accept license (optional)
   shell: xcodebuild -license accept
   become: yes
